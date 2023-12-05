@@ -1,4 +1,4 @@
-# Mac Machine Learning Speed Test
+# Mac Machine Learning Speed Test (work in progress)
 
 A collection of simple scripts focused on benchmarking the speed of various machine learning models on Apple Silicon Macs (M1, M2, M3).
 
@@ -20,6 +20,7 @@ Scripts should also ideally work with CUDA (for benchmarking on other machines).
 
 * TODO: Make sure this works across new machines
 * TODO: If someone has a brand new machine, what do they do? E.g. install homebrew, conda-forge, github linking etc 
+* TODO: Someone should be able to delete their local file and recreate all of this from scratch
 
 - Create conda env
 
