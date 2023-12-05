@@ -82,3 +82,8 @@ brew install wget # requires homebrew: https://brew.sh/
 ## Results
 
 * TODO - combine results
+
+## Potential upgrades
+
+* Add total memory count + num GPU cores to results e.g. "Apple_M1_Pro_18GB_Memory_14_GPU_Cores..."
+* Add scikit-learn/XGBoost tests, e.g. 100,000 rows, 1,000,000 rows?
