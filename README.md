@@ -4,7 +4,7 @@ A collection of simple scripts focused on benchmarking the speed of various mach
 
 Scripts should also ideally work with CUDA (for benchmarking on other machines/Google Colab).
 
-> **Note:** Scripts are not designed to achieved state-of-the-art results (e.g. accuracy), they are designed to be as simple as possible to run out of the box. Most are examples straight from PyTorch/TensorFlow docs I've tweaked for specific focus on MPS (Metal Performance Shaders - Apple's GPU acceleration framework) devices + simple logging of timing.
+> **Note:** Scripts are not designed to achieved state-of-the-art results (e.g. accuracy), they are designed to be as simple as possible to run out of the box. Most are examples straight from PyTorch/TensorFlow docs I've tweaked for specific focus on MPS (Metal Performance Shaders - Apple's GPU acceleration framework) devices + simple logging of timing. They are scrappy and likely not the best way to do things, but they are simple and easy to run.
 
 ## Experiment Overview
 
@@ -54,6 +54,8 @@ python -m pip install transformers datasets evaluate accelerate
 ```
 
 - ********************************************************************Install requirements for llamaCPP********************************************************************
+
+* See: https://llama-cpp-python.readthedocs.io/en/latest/install/macos/ (note: this focuses on macOS install, I haven't tested with CUDA)
 
 ```python
 CMAKE_ARGS="-DLLAMA_METAL=on" FORCE_CMAKE=1 python -m pip install llama-cpp-python
