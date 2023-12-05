@@ -83,6 +83,11 @@ brew install wget # requires homebrew: https://brew.sh/
 
 * TODO - combine results
 
+## Notes
+
+* As far as I know, float16 (mixed-precision training) doesn't work on MPS devices, this is why I've used float32 for all tests, float16 will typically halve training times on compatible devices (e.g. NVIDIA GPUs)
+* Also, MPS doesn't support `torch.compile()` which also speeds up training times on NVIDIA Ampere GPUs & above
+
 ## Potential upgrades
 
 * Add total memory count + num GPU cores to results e.g. "Apple_M1_Pro_18GB_Memory_14_GPU_Cores..."
