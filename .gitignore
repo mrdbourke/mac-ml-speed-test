@@ -1,0 +1,41 @@
+# Python/Jupyter project gitignore
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment
+venv/
+env/
+*.env
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Compiled files
+*.pyc
+*.pyo
+
+# IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+*.gguf
+data/
+pytorch_hf_nlp_model/*
