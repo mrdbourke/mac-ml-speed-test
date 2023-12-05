@@ -2,7 +2,7 @@
 
 A collection of simple scripts focused on benchmarking the speed of various machine learning models on Apple Silicon Macs (M1, M2, M3).
 
-Scripts should also ideally work with CUDA (for benchmarking on other machines).
+Scripts should also ideally work with CUDA (for benchmarking on other machines/Google Colab).
 
 > **Note:** Scripts are not designed to achieved state-of-the-art results (e.g. accuracy), they are designed to be as simple as possible to run out of the box. Most are examples straight from PyTorch/TensorFlow docs I've tweaked for specific focus on MPS (Metal Performance Shaders - Apple's GPU acceleration framework) devices + simple logging of timing.
 
