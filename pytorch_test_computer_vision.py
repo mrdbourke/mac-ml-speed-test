@@ -88,16 +88,16 @@ if __name__ == "__main__":
     # Create DataLoaders
     def create_dataloaders(batch_size, num_workers=NUM_WORKERS):
         train_dataloader = DataLoader(train_data,
-                                    batch_size=batch_size,
-                                    shuffle=True,
-                                    num_workers=num_workers,
-                                    pin_memory=True)
+                                      batch_size=batch_size,
+                                      shuffle=True,
+                                      num_workers=num_workers,
+                                      pin_memory=True)
 
         test_dataloader = DataLoader(test_data,
-                                    batch_size=batch_size,
-                                    shuffle=False,
-                                    num_workers=num_workers,
-                                    pin_memory=True)
+                                     batch_size=batch_size,
+                                     shuffle=False,
+                                     num_workers=num_workers,
+                                     pin_memory=True)
 
         return train_dataloader, test_dataloader
 
@@ -235,17 +235,16 @@ if __name__ == "__main__":
         return results
 
     def train_and_time(batch_sizes=BATCH_SIZES,
-                    epochs=EPOCHS,
-                    device=device):
+                       epochs=EPOCHS,
+                       device=device):
 
         batch_size_training_results = []
+
+        # Create DataLoaders
+        train_dataloader, test_dataloader = create_dataloaders(batch_size=batch_size)
+
         for batch_size in batch_sizes:
-
             print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
-
-            # Create DataLoaders
-            train_dataloader, test_dataloader = create_dataloaders(batch_size=batch_size)
-
             # Create an instance of resnet50
             model = torchvision.models.resnet50(num_classes=100).to(device)
             # model = torch.compile(model) # potential way to speed up model
