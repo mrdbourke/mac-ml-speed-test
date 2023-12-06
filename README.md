@@ -173,7 +173,7 @@ Results will be saved to `results/results_tensorflow_nlp/[file_name].csv` where 
 * Hugging Face Guides to Install [Transformers](https://huggingface.co/docs/transformers/installation), [Datasets](https://huggingface.co/docs/datasets/installation), [Evaluate](https://huggingface.co/docs/evaluate/installation), [Accelerate](https://huggingface.co/docs/accelerate/basic_tutorials/install).
 
 ```python
-conda install pytorch::pytorch torchvision -c pytorch # MPS usage comes standard
+conda install pytorch::pytorch torchvision -c pytorch
 ```
 
 > **Note:** MPS (Metal Performance Shaders, aka using the GPU on Apple Silicon) comes standard with PyTorch on macOS, you don't need to install anything extra. MPS can be accessed via [`torch.mps`](https://pytorch.org/docs/stable/mps.html), see more [notes in the PyTorch documentation](https://pytorch.org/docs/stable/notes/mps.html).
