@@ -24,13 +24,49 @@ Scripts should also ideally work with CUDA (for benchmarking on other machines/G
 * TODO: If someone has a brand new machine, what do they do? E.g. install homebrew, conda-forge, github linking etc 
 * TODO: Someone should be able to delete their local file and recreate all of this from scratch
 
-- Install homebrew
+- Install homebrew (or run `xcode-select --install` in terminal and skip to next step)
+* Go to: https://brew.sh/
+* Run the commands in the terminal
 
 TODO
 
-- Install Conda-forge (if you don't have conda) 
+- Install miniforge to get conda: https://github.com/conda-forge/miniforge 
 
-TODO
+```
+brew install miniforge
+```
+
+or
+
+* Download Miniforge3 for macOS ARM64 from: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+* Run the following commands in terminal:
+
+```
+chmod +x ~/Downloads/Miniforge3-MacOSX-arm64.sh
+sh ~/Downloads/Miniforge3-MacOSX-arm64.sh
+```
+
+Follow the steps, for example, answer "yes", "yes", "ok" etc.
+
+Initialize conda to see if it works.
+
+```
+source ~/miniforge3/bin/activate
+```
+
+Restart terminal and check conda is working.
+
+- Clone this repo
+
+```
+git clone https://github.com/mrdbourke/mac-ml-speed-test.git 
+```
+
+- Change into the repo directory
+
+```
+cd mac-ml-speed-test
+```
 
 - Create conda env
 
