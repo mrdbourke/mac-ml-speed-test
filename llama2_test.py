@@ -38,7 +38,7 @@ except Exception as e:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run Llama 2 on a set of questions')
     parser.add_argument('--path_to_gguf_model', default="./llama-2-7b-chat.Q4_0.gguf", type=str, help='Path to the Llama 2 model, see: https://huggingface.co/TheBloke for downloads, should be ".gguf" format')
-    parser.add_argument('--num_times_per_question', default=1, type=int, help='Number of times to ask each question')
+    parser.add_argument('--num_times_per_question', default=5, type=int, help='Number of times to ask each question')
     parser.add_argument('--num_questions', default='all', type=str, help='Number of questions to ask, default "all", can be a positive integer between 1 and 20')
     parser.add_argument('--max_tokens', default=500, type=int, help='Max tokens to generate per question, default 500')
     parser.add_argument('--stream_output', default=False, type=bool, help='Stream output from Llama 2')
@@ -180,7 +180,7 @@ if __name__ == "__main__":
         csv_filename = f"{CPU_PROCESSOR}_{MODEL_NAME}_results.csv"
 
     # Make the target results directory if it doesn't exist (include the parents)
-    target_results_dir = "results_llama_2"
+    target_results_dir = "results_llama2"
     results_path = Path("results") / target_results_dir
     results_path.mkdir(parents=True, exist_ok=True)
     csv_filepath = results_path / csv_filename
