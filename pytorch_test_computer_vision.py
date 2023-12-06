@@ -91,13 +91,13 @@ if __name__ == "__main__":
                                       batch_size=batch_size,
                                       shuffle=True,
                                       num_workers=num_workers,
-                                      pin_memory=True)
+                                      pin_memory=False) # note: if you pin memory, you may get "too many workers" errors when recreating DataLoaders, see: https://github.com/Lightning-AI/pytorch-lightning/issues/18487#issuecomment-1740244601
 
         test_dataloader = DataLoader(test_data,
                                      batch_size=batch_size,
                                      shuffle=False,
                                      num_workers=num_workers,
-                                     pin_memory=True)
+                                     pin_memory=False)
 
         return train_dataloader, test_dataloader
 
@@ -240,9 +240,6 @@ if __name__ == "__main__":
 
         batch_size_training_results = []
 
-        # Create DataLoaders
-        train_dataloader, test_dataloader = create_dataloaders(batch_size=batch_size)
-
         for batch_size in batch_sizes:
             print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
             # Create an instance of resnet50
@@ -252,6 +249,9 @@ if __name__ == "__main__":
             # Setup loss function and optimizer
             loss_fn = nn.CrossEntropyLoss()
             optimizer = torch.optim.Adam(params=model.parameters(), lr=0.001)
+
+            # Create DataLoaders
+            train_dataloader, test_dataloader = create_dataloaders(batch_size=batch_size)
 
             try:
                 # Start the timer
