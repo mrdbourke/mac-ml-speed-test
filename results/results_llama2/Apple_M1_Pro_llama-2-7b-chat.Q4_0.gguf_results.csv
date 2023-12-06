@@ -1,0 +1,12 @@
+question,question_iter,total_time,answer,answer_char_len,chars_per_second,answer_token_len,tokens_per_second
+What are the nutrition facts of an apple? Let's think step by step...,0,15.26005983306095,"
+ Hinweis: The exact nutrition facts may vary depending on the variety of apple. Here is a general overview based on data from the United States Department of Agriculture (USDA):
+1. Calories: An average-sized apple (about 150g) contains around 52 calories.
+2. Carbohydrates: Apples are primarily made up of carbs, with an average of 13g per medium-sized fruit. Most of these carbs come in the form of simple sugars like fructose and glucose.
+3. Fiber: Apples are a good source of dietary fiber, with about 2-3 grams per medium-sized fruit. Fiber can help support healthy digestion and bowel movements.
+4. Vitamins and minerals: Apples contain several important vitamins and minerals, including vitamin C (about 8mg per medium-sized fruit), potassium (about 105mg per medium-sized fruit), and some B vitamins like folate and thiamin.
+5. Antioxidants: Apples contain a range of antioxidants, including quercetin, catechins, and chlorogenic acid. These compounds can help protect cells from damage caused by free radicals, which may reduce the risk of certain diseases like cancer and heart disease.
+6. Water content: Apples are about 85% water, which makes them a refreshing and hydrating snack.
+7. Sugar content: While apples do contain some natural sugars, they are generally considered a low-sugar fruit compared to other fruits like bananas or grapes. The average medium-sized apple contains about 12g of sugar.
+8. Glycemic index: Apples have a relatively low glycemic index (GI) of around 37-40, which means they are unlikely to cause a spike in blood sugar levels.
+9. Net carbs: After subtracting the fiber content from the total carbohydrate content, apples have a net carb count of about 10-12g per medium-sized fruit. This makes them a",1740,114.02,435.0,28.51
