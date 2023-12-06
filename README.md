@@ -259,13 +259,15 @@ After installing `llama-cpp-python`, you will need a `.gguf` format model from H
     - Download link: https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf?download=true
     - Download code:
 
+* Install wget if necessary, requires homebrew: https://brew.sh/
+
 ```python
-# Install wget if necessary
-brew install wget # requires homebrew: https://brew.sh/ 
+brew install wget 
 ```
 
+* Download a `.gguf` LLM file from Hugging Face, on [TheBloke profile](https://huggingface.co/TheBloke), usage/results will vary depending on which model you use, choosing `llama-2-7b-chat.Q4_0.gguf` as an example:
+
 ```
-# Download an gguf LLM file (there are lots of these, see note below)
 wget https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_0.gguf
 ```
 Once you've downloaded your model file, put it in the same directory as `llama2_test.py` (or update the `model_path` argument to point to the file).

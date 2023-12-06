@@ -38,6 +38,9 @@ if __name__ == "__main__":
         device = torch.device("cpu")
         print (f"[INFO] MPS or CUDA device not found, using device: {device} (results will be much slower than using MPS or CUDA)")
 
+    # Prevent torch from erroring with too many files open (happens on M3)
+    # See: https://github.com/pytorch/pytorch/issues/11201, https://github.com/CVMI-Lab/PLA/issues/20 
+    torch.multiprocessing.set_sharing_strategy('file_system')
 
     # Set random seed
     torch.manual_seed(42)
