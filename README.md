@@ -178,14 +178,14 @@ conda install pytorch::pytorch torchvision -c pytorch
 
 > **Note:** MPS (Metal Performance Shaders, aka using the GPU on Apple Silicon) comes standard with PyTorch on macOS, you don't need to install anything extra. MPS can be accessed via [`torch.mps`](https://pytorch.org/docs/stable/mps.html), see more [notes in the PyTorch documentation](https://pytorch.org/docs/stable/notes/mps.html).
 
-### Test PyTorch Computer Vision
+### Test PyTorch Computer Vision (CIFAR100)
 
 TODO: experiment details, resnet50, cifar100, input image (3, 32, 32)
 
-Example usage of `pytorch_test_computer_vision.py` for 1 epoch and batch size of 32:
+Example usage of `pytorch_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
 ```
-python pytorch_test_computer_vision.py --epochs=1 --batch_sizes="32"
+python pytorch_test_computer_vision_cifar100.py --epochs=1 --batch_sizes="32"
 ```
 
 Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
@@ -195,16 +195,22 @@ Default behaviour is to test for `5` epochs and batch sizes of `"16, 32, 64, 128
 The following:
 
 ```
-python pytorch_test_computer_vision.py
+python pytorch_test_computer_vision_cifar100.py
 ```
 
 Is equivalent to:
 
 ```
-python pytorch_test_computer_vision.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
+python pytorch_test_computer_vision_cifar100.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
 ```
 
-Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `pytorch_test_computer_vision.py` for details).
+Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `pytorch_test_computer_vision_cifar100.py` for details).
+
+### Test PyTorch Computer Vision (Food101)
+
+UPTOHERE: add details about PyTorch Computer Vision experiment with Food101
+
+TODO - 
 
 
 ### Test PyTorch Natural Language Processing (NLP)
