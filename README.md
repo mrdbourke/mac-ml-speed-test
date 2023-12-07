@@ -212,6 +212,8 @@ UPTOHERE: add details about PyTorch Computer Vision experiment with Food101
 
 TODO - 
 
+* Download Hugging Face Datasets `python -m pip install datasets` to download Food101 dataset
+
 
 ### Test PyTorch Natural Language Processing (NLP)
 
@@ -315,6 +317,8 @@ Results will be saved to `results/results_llama2/[file_name].csv` where `file_na
 * As far as I know, float16 (mixed-precision training) doesn't work on MPS devices, this is why I've used float32 for all tests, float16 will typically halve training times on compatible devices (e.g. NVIDIA GPUs)
 * Also, MPS doesn't support `torch.compile()` which also speeds up training times on NVIDIA Ampere GPUs & above
 * Tests should not be compared between frameworks, e.g. TensorFlow vs PyTorch for X task. They are more designed to compare the same code across hardware. 
+* Big big big: found you need to increase `ulimit -n` on M3 Pro and M3 Max to run larger experiments (e.g. default on M3 Pro, M3 Max is `ulimit -n 256`, I increased to `ulimit -n 2560` (10x increase, which is the default on the base M3 and my M1 Pro) and was able to run larger experiments, e.g. batch size 64+ for computer vision)
+    * TK - if you get the error `OSError: [Errno 24] Too many open files...` (or something similar), try increasing `ulimit -n`
 
 ## Potential upgrades
 
