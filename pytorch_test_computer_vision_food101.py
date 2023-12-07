@@ -283,7 +283,8 @@ if __name__ == "__main__":
     
     ### Prepare Data Functions ### 
     print(f"[INFO] Preparing {DATASET_NAME} dataset, note: this dataset requires 5GB+ of storage, so may take a while to download... (remember to delete ./data afterwards if you want to free up space)")
-    dataset = load_dataset("food101")
+    dataset = load_dataset("food101", 
+                           cache_dir="./data") # note: cache defaults to "~/.cache/huggingface/datasets/..." if not specified
     train_dataset = dataset["train"].shuffle(seed=42)
     test_dataset = dataset["validation"]
 
