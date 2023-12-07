@@ -137,6 +137,14 @@ python tensorflow_test_computer_vision.py --epochs=5 --batch_sizes="16, 32, 64, 
 
 Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision.py` for details). 
 
+### Test TensorFlow Computer Vision (Food101)
+
+UPTOHERE: add details about TensorFlow Computer Vision experiment with Food101
+
+TODO - 
+
+* Download TensorFlow Datasets `python -m pip install tensorflow_datasets` to download Food101 dataset
+
 ### Test TensorFlow Natural Language Processing (NLP)
 
 TODO: experiment details
