@@ -30,7 +30,8 @@ batch_size_args = [int(item.strip()) for item in args.batch_sizes.split(",")]
 # Set constants  
 GPU_NAME = get_nvidia_gpu_name()
 DATASET_NAME = "FOOD101"
-INPUT_SHAPE = (224, 224, 3)
+IMAGE_SIZE = 224
+INPUT_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 BATCH_SIZES = batch_size_args
 MODEL_NAME = "ResNet50"
 EPOCHS = args.epochs
@@ -48,6 +49,13 @@ print(f"[INFO] Loading {DATASET_NAME} dataset, note: this will store a ~5GB file
     with_info=True,
     data_dir="./data"
 )
+print(f"[INFO] Finished loading {DATASET_NAME} dataset.")
+
+# Create preprocess layer
+preprocess_layer = tf.keras.Sequential([
+    tf.keras.layers.Rescaling(1/255.),
+    tf.keras.layers.Resizing(height=IMAGE_SIZE, width=IMAGE_SIZE)
+])
 
 # Setup training
 def train_and_time(batch_sizes=BATCH_SIZES,
@@ -58,6 +66,10 @@ def train_and_time(batch_sizes=BATCH_SIZES,
     batch_size_training_results = []
     for batch_size in batch_sizes:
         print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
+
+        # Map preprocessing function to data and turn into batches
+        train_data = train_data.map(lambda image, label: (preprocess_layer(image), label)).batch(32).shuffle(1000)
+        test_data = test_data.map(lambda image, label: (preprocess_layer(image), label)).batch(32) # don't shuffle test data (we're not using it anyway)
 
         # Create model
         model = tf.keras.applications.ResNet50(
