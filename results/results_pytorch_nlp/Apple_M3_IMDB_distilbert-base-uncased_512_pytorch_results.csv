@@ -1,0 +1,3 @@
+train_runtime,train_samples_per_second,train_steps_per_second,train_loss,epoch,batch_size,total_flos
+6388.8935,11.739,0.734,0.25999131531165237,3.0,16,
+FAILED,FAILED,FAILED,FAILED,FAILED,32,FAILED
