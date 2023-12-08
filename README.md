@@ -333,3 +333,4 @@ Results will be saved to `results/results_llama2/[file_name].csv` where `file_na
 * Add total memory count + num GPU cores to results e.g. "Apple_M1_Pro_18GB_Memory_14_GPU_Cores..."
 * Add scikit-learn/XGBoost tests, e.g. 100,000 rows, 1,000,000 rows?
 * Could I use Keras 3.0 for the same code to run on multiple backends? :thinking:
+* Could use `mlx` (Apple's ML framework for Apple Silicon) for further speed improvements? See this example of Llama 2 running on MLX - https://huggingface.co/mlx-llama/Llama-2-7b-chat-mlx 

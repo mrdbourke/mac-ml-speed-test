@@ -20,7 +20,7 @@ from helper_functions import get_nvidia_gpu_name
 
 # Create argument parser
 parser = argparse.ArgumentParser()
-parser.add_argument("--batch_sizes", default="32, 64, 128, 256", help="Delimited list input of batch sizes to test, defaults to '32, 64, 128, 256'", type=str)
+parser.add_argument("--batch_sizes", default="32, 64, 128", help="Delimited list input of batch sizes to test, defaults to '32, 64, 128'", type=str)
 parser.add_argument("--epochs", type=int, default=3, help="Number of epochs to train for, default is 5")
 parser.add_argument("--num_workers", type=int, default=4, help="Number of workers to use for DataLoaders, default is 4, may be better to increase with available CPU cores")
 args = parser.parse_args()
