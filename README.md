@@ -98,9 +98,12 @@ conda install -c conda-forge pip pandas numpy matplotlib scikit-learn jupyterlab
 
 For more see guide: https://developer.apple.com/metal/tensorflow-plugin/
 
+> **Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
+
 ```python
 python -m pip install tensorflow
 python -m pip install tensorflow-metal  
+python -m pip install tensorflow_datasets
 ```
 
 > **Note:** TensorFlow can be run on macOS *without* using the GPU via `pip install tensorflow`, however, if you're using an Apple Silicon Mac, you'll want to use the Metal plugin for GPU acceleration (`pip install tensorflow-metal`).
@@ -109,14 +112,14 @@ python -m pip install tensorflow-metal
 >
 > `2023-12-06 12:22:02.016745: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.`
 
-### Test TensorFlow Computer Vision
+### Test TensorFlow Computer Vision (CIFAR100)
 
 TODO: experiment details
 
-Example usage of `tensorflow_test_computer_vision.py` for 1 epoch and batch size of 32:
+Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
 ```
-python tensorflow_test_computer_vision.py --epochs=1 --batch_sizes="32"
+python tensorflow_test_computer_vision_cifar100.py --epochs=1 --batch_sizes="32"
 ```
 
 Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
@@ -126,24 +129,46 @@ Default behaviour is to test for `5` epochs and batch sizes of `"16, 32, 64, 128
 The following:
 
 ```
-python tensorflow_test_computer_vision.py
+python tensorflow_test_computer_vision_cifar100.py
 ```
 
 Is equivalent to:
 
 ```
-python tensorflow_test_computer_vision.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
+python tensorflow_test_computer_vision_cifar100.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
 ```
 
-Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision.py` for details). 
+Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_cifar100.py` for details). 
 
 ### Test TensorFlow Computer Vision (Food101)
 
-UPTOHERE: add details about TensorFlow Computer Vision experiment with Food101
+UPTOHERE: add details about TensorFlow Computer Vision experiment with Food101, resnet50, input image (224, 224, 3)
 
 TODO - 
 
-* Download TensorFlow Datasets `python -m pip install tensorflow_datasets` to download Food101 dataset
+Example usage of `tensorflow_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
+
+```
+python tensorflow_test_computer_vision_food101.py --epochs=1 --batch_sizes="32"
+```
+
+Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128"`.
+
+Default behaviour is to test for `3` epochs and batch sizes of `"32, 64, 128"`.
+
+The following:
+
+```
+python tensorflow_test_computer_vision_food101.py
+```
+
+Is equivalent to:
+
+```
+python tensorflow_test_computer_vision_food101.py --epochs=3 --batch_sizes="32, 64, 128"
+```
+
+Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_food101.py` for details).
 
 ### Test TensorFlow Natural Language Processing (NLP)
 
@@ -218,9 +243,37 @@ Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `fi
 
 UPTOHERE: add details about PyTorch Computer Vision experiment with Food101
 
-TODO - 
+TODO - experiment details in markdown table, resnet50, food101 dataset (much larger than CIFAR100), image size (224, 224, 3)
 
-* Download Hugging Face Datasets `python -m pip install datasets` to download Food101 dataset
+**Note:** Download Hugging Face Datasets to download Food101 dataset.
+
+```
+python -m pip install datasets
+```
+
+Example usage of `pytorch_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
+
+```
+python pytorch_test_computer_vision_food101.py --epochs=1 --batch_sizes="32"
+```
+
+Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
+
+Default behaviour is to test for `3` epochs and batch sizes of `"32, 64, 128"`.
+
+The following:
+
+```
+python pytorch_test_computer_vision_food101.py
+```
+
+Is equivalent to:
+
+```
+python pytorch_test_computer_vision_food101.py --epochs=3 --batch_sizes="32, 64, 128"
+```
+
+Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `pytorch_test_computer_vision_food101.py` for details).
 
 
 ### Test PyTorch Natural Language Processing (NLP)
