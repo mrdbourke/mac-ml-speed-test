@@ -68,7 +68,8 @@ def train_and_time(batch_sizes=BATCH_SIZES,
         print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
 
         # Map preprocessing function to data and turn into batches
-        train_data = train_data.map(lambda image, label: (preprocess_layer(image), label)).shuffle(1000)
+        train_data_batched = train_data.map(lambda image, label: (preprocess_layer(image), label)).shuffle(1000).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+        # train_data = train_data.map(lambda image, label: (preprocess_layer(image), label)).shuffle(1000)
         test_data = test_data.map(lambda image, label: (preprocess_layer(image), label))# don't shuffle test data (we're not using it anyway)
 
         # Create model
@@ -85,7 +86,7 @@ def train_and_time(batch_sizes=BATCH_SIZES,
         try:
             start_time = timer()
 
-            model.fit(train_data.batch(batch_size), # batch the data dynamically
+            model.fit(train_data_batched, # batch the data dynamically
                       epochs=epochs, 
                       batch_size=batch_size,
                       validation_data=None)
