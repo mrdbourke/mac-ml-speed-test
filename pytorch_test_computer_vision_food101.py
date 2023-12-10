@@ -320,7 +320,7 @@ if __name__ == "__main__":
     # Create CSV filename
     GPU_NAME = get_nvidia_gpu_name()
     if GPU_NAME:
-        csv_filename = f"{GPU_NAME}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
+        csv_filename = f"{GPU_NAME.replace(" ", "_")}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
     else:
         csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
 

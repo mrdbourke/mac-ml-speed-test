@@ -98,7 +98,8 @@ if __name__ == "__main__":
 
     ### Load dataset ###
     print(f"[INFO] Loading IMDB dataset...")
-    imdb = load_dataset("imdb")
+    imdb = load_dataset("imdb",
+                        cache_dir="./data")
     rand_idx = random.randint(0, len(imdb['train']))
     print(f"[INFO] IMDB dataset loaded. Example sample:\n{imdb['train'][rand_idx]}")
 
@@ -141,6 +142,27 @@ if __name__ == "__main__":
         print(f"Non-trainable parameters: {non_trainable_parameters}")
         print(f"Total parameters: {total_parameters}")
         return trainable_parameters, non_trainable_parameters, total_parameters
+    
+    def save_results(batch_size_training_results):
+        # Create CSV filename
+        if GPU_NAME:
+            csv_filename = f"{GPU_NAME.replace(' ', '_')}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
+        else:
+            csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
+
+        # Make the target results directory if it doesn't exist (include the parents)
+        target_results_dir = "results_pytorch_nlp"
+        results_path = Path("results") / target_results_dir
+        results_path.mkdir(parents=True, exist_ok=True)
+        csv_filepath = results_path / csv_filename
+
+        # Turn dict into DataFrame 
+        df = pd.DataFrame(batch_size_training_results) 
+
+        # Save to CSV
+        print(f"[INFO] Saving results to: {csv_filepath}")
+        df.to_csv(csv_filepath, index=False)
+
    
     """
     Optional? Create Data Collator (not sure if this seems to produce a warning each time or if it's AutoTokenizer?
@@ -229,8 +251,11 @@ if __name__ == "__main__":
             # Delete model and trainer instance, clear cache
             del model
             del trainer
-            torch.cuda.empty_cache()
-            torch.mps.empty_cache()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
 
         except Exception as e:
             print(f"[INFO] Error: {e}")
@@ -247,30 +272,14 @@ if __name__ == "__main__":
             # Delete model and trainer instance, clear cache
             del model
             del trainer
-            torch.cuda.empty_cache()
-            torch.mps.empty_cache() 
 
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
             break
     
     print("[INFO] Finished training with all batch sizes.")        
 
     print(f"[INFO] Results:\n{batch_size_training_results}")
-
-    # Create CSV filename
-    if GPU_NAME:
-        csv_filename = f"{GPU_NAME}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
-    else:
-        csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
-
-    # Make the target results directory if it doesn't exist (include the parents)
-    target_results_dir = "results_pytorch_nlp"
-    results_path = Path("results") / target_results_dir
-    results_path.mkdir(parents=True, exist_ok=True)
-    csv_filepath = results_path / csv_filename
-
-    # Turn dict into DataFrame 
-    df = pd.DataFrame(batch_size_training_results) 
-
-    # Save to CSV
-    print(f"[INFO] Saving results to: {csv_filepath}")
-    df.to_csv(csv_filepath, index=False)
