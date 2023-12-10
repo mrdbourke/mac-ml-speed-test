@@ -45,6 +45,7 @@ NUM_WORKERS = args.num_workers # number of workers to use for DataLoaders
 EPOCHS = args.epochs
 BATCH_SIZES = batch_size_args
 DATASET_NAME = "FOOD101"
+NUM_CLASSES = 101
 
 # Create DataLoaders
 def create_dataloaders(batch_size, num_workers=NUM_WORKERS):
@@ -214,7 +215,7 @@ def train_and_time(device,
     for batch_size in batch_sizes:
         print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
         # Create an instance of resnet50
-        model = torchvision.models.resnet50(num_classes=100).to(device)
+        model = torchvision.models.resnet50(num_classes=NUM_CLASSES).to(device)
         # model = torch.compile(model) # potential way to speed up model
 
         # Setup loss function and optimizer
