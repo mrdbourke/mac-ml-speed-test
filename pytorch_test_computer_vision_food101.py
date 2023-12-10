@@ -42,7 +42,8 @@ BACKEND = "pytorch"
 MODEL_NAME = "resnet50"
 IMAGE_SIZE = 224
 INPUT_SHAPE = (3, IMAGE_SIZE, IMAGE_SIZE)
-NUM_WORKERS = args.num_workers # number of workers to use for DataLoaders
+NUM_WORKERS = args.num_workers if args.num_workers < os.cpu_count() else 2 # number of workers to use for DataLoaders
+print(f"[INFO] Using number of workers: {NUM_WORKERS}")
 EPOCHS = args.epochs
 BATCH_SIZES = batch_size_args
 DATASET_NAME = "FOOD101"
