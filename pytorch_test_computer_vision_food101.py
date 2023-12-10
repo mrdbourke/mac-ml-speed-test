@@ -37,6 +37,7 @@ torch.manual_seed(42)
 batch_size_args = [int(item.strip()) for item in args.batch_sizes.split(",")]
 
 ### Set constants ###
+GPU_NAME = get_nvidia_gpu_name()
 BACKEND = "pytorch"
 MODEL_NAME = "resnet50"
 IMAGE_SIZE = 224
@@ -247,6 +248,7 @@ def train_and_time(device,
 
             batch_size_training_results.append({"batch_size": batch_size,
                                                 "avg_time_per_epoch": avg_time_per_epoch})
+            save_results(batch_size_training_results)
             print(f"[INFO] Finished training with batch size {batch_size} for {epochs} epochs, total time: {round(total_training_time, 3)} seconds, avg time per epoch: {round(avg_time_per_epoch, 3)} seconds\n\n")
 
         except Exception as e:
@@ -254,6 +256,7 @@ def train_and_time(device,
             print(f"[INFO] Failed training with batch size {batch_size} for {epochs} epochs...\n\n")
             batch_size_training_results.append({"batch_size": batch_size,
                                                 "avg_time_per_epoch": "FAILED"})
+            save_results(batch_size_training_results)
             break
             
     return batch_size_training_results
@@ -269,6 +272,25 @@ def image_transforms(examples):
         examples["image"] = [simple_transform(image) for image in examples["image"]]
         return examples
 
+def save_results(batch_size_training_results, target_dir="results_pytorch_cv"):
+        # Create CSV filename
+        if GPU_NAME:
+            csv_filename = f"{GPU_NAME.replace(' ', '_')}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
+        else:
+            csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
+
+        # Make the target results directory if it doesn't exist (include the parents)
+        target_results_dir = target_dir
+        results_path = Path("results") / target_results_dir
+        results_path.mkdir(parents=True, exist_ok=True)
+        csv_filepath = results_path / csv_filename
+
+        # Turn dict into DataFrame 
+        df = pd.DataFrame(batch_size_training_results) 
+
+        # Save to CSV
+        print(f"[INFO] Saving results to: {csv_filepath}")
+        df.to_csv(csv_filepath, index=False)
 if __name__ == "__main__":
     print(f"[INFO] Testing model: {MODEL_NAME} on {DATASET_NAME} dataset with input shape {INPUT_SHAPE} for {EPOCHS} epochs across batch sizes: {BATCH_SIZES}")
 
@@ -316,23 +338,3 @@ if __name__ == "__main__":
     print("[INFO] Finished training with all batch sizes.")        
 
     print(f"[INFO] Results:\n{batch_size_training_results}")
-
-    # Create CSV filename
-    GPU_NAME = get_nvidia_gpu_name()
-    if GPU_NAME:
-        csv_filename = f"{GPU_NAME.replace(" ", "_")}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
-    else:
-        csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[-1]}_{BACKEND}_results.csv"
-
-    # Make the target results directory if it doesn't exist (include the parents)
-    target_results_dir = "results_pytorch_cv"
-    results_path = Path("results") / target_results_dir
-    results_path.mkdir(parents=True, exist_ok=True)
-    csv_filepath = results_path / csv_filename
-
-    # Turn dict into DataFrame 
-    df = pd.DataFrame(batch_size_training_results) 
-
-    # Save to CSV
-    print(f"[INFO] Saving results to: {csv_filepath}")
-    df.to_csv(csv_filepath, index=False)

@@ -247,6 +247,7 @@ if __name__ == "__main__":
             print(f"[INFO] Trainer metrics for batch size {batch_size}:\n{trainer_metrics_dict}")
 
             batch_size_training_results.append(trainer_metrics_dict)
+            save_results(batch_size_training_results)
 
             # Delete model and trainer instance, clear cache
             del model
@@ -268,6 +269,7 @@ if __name__ == "__main__":
                                                 'train_loss': "FAILED",
                                                 'epoch': "FAILED",
                                                 'batch_size': batch_size})
+            save_results(batch_size_training_results)
 
             # Delete model and trainer instance, clear cache
             del model
