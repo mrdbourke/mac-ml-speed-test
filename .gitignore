@@ -39,3 +39,4 @@ Thumbs.db
 *.gguf
 data/
 pytorch_hf_nlp_model/*
+wandb/*
