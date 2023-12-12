@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     # Create CSV filename
     if GPU_NAME:
-        csv_filename = f"{GPU_NAME}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[0]}_results.csv"
+        csv_filename = f"{GPU_NAME.replace(' ', '_')}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[0]}_results.csv"
     else:
         csv_filename = f"{CPU_PROCESSOR}_{DATASET_NAME}_{MODEL_NAME}_{INPUT_SHAPE[0]}_results.csv"
 
@@ -211,7 +211,6 @@ if __name__ == "__main__":
     csv_filepath = results_path / csv_filename
 
     # Turn dict into DataFrame
-    import pandas as pd
     df = pd.DataFrame(batch_size_training_results)
     # df.head() 
 
