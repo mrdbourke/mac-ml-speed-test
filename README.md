@@ -116,6 +116,10 @@ python -m pip install tensorflow_datasets
 
 TODO: experiment details
 
+UPTOHERE experiment details
+
+model, dataset, image size, epochs
+
 Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
 ```
@@ -365,13 +369,10 @@ Results will be saved to `results/results_llama2/[file_name].csv` where `file_na
 
 - TODO Note on LLM files: you can use other .gguf models, e.g. llama-2-13b, 70b, other variants etc, I just went with 7b to demonstrate (as to run 70b, you will need a lot of RAM, ~70GB+ in half precision, [~40GB in Quantize 4 precision](https://huggingface.co/TheBloke/Llama-2-70B-Chat-GGUF/tree/main)) 
 
-## Run scripts
-
-* TODO - guide on running the testing scripts
-
 ## Results
 
 * TODO - combine results
+* Define the computers tested (e.g. all baseline models)
 
 ## Notes
 
