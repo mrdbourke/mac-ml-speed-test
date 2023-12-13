@@ -8,17 +8,24 @@ Scripts should also ideally work with CUDA (for benchmarking on other machines/G
 
 ## Experiment Overview
 
-* TODO - write experiment overview - focus on speed comparisons across hardware of the same code rather than framework vs framework
-* TODO - focus on various batch sizes/actual training times typical of real-world experimentation 
-* TODO - note: more batch size = more memory requirments, e.g. 8GB M3 probably can't run much over batch size 64 for CV or 32 for NLP
-* TL;DR
-    * PyTorch CV test
-    * PyTorch NLP test
-    * TensorFlow CV test
-    * TensorFlow NLP test
-    * LlamaCPP LLM test (generate text with Llama 2)
+The focus of these experiments is to get a quick benchmark across various ML problems and see how the Apple Silicon Macs perform.
+
+The focus is on hardware comparison rather than framework to framework comparison and measuring speed rather than accuracy.
+
+The following experiments are run:
+* TensorFlow Computer Vision (CIFAR100)
+* TensorFlow Computer Vision (Food101)
+* TensorFlow Natural Language Processing (NLP)
+* PyTorch Computer Vision (CIFAR100)
+* PyTorch Computer Vision (Food101)
+* PyTorch Natural Language Processing (NLP)
+* LlamaCPP LLM test (generate text with Llama 2)
+
+While the focus is on Apple Silicon Macs, I've included my own deep learning PC (NVIDIA TITAN RTX) as well as a Google Colab free tier instance for comparison.
 
 ## Base Environment Setup
+
+TK - finish experiment setup 
 
 * TODO: Make sure this works across new machines
 * TODO: If someone has a brand new machine, what do they do? E.g. install homebrew, conda-forge, github linking etc 
@@ -27,8 +34,6 @@ Scripts should also ideally work with CUDA (for benchmarking on other machines/G
 - Install homebrew (or run `xcode-select --install` in terminal and skip to next step)
 * Go to: https://brew.sh/
 * Run the commands in the terminal
-
-TODO
 
 - Install miniforge to get conda: https://github.com/conda-forge/miniforge 
 
@@ -114,11 +119,11 @@ python -m pip install tensorflow_datasets
 
 ### Test TensorFlow Computer Vision (CIFAR100)
 
-TODO: experiment details
+Experiment details:
 
-UPTOHERE experiment details
-
-model, dataset, image size, epochs
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 |
 
 Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
@@ -146,9 +151,11 @@ Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where 
 
 ### Test TensorFlow Computer Vision (Food101)
 
-UPTOHERE: add details about TensorFlow Computer Vision experiment with Food101, resnet50, input image (224, 224, 3)
+Experiment details:
 
-TODO - 
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [Food101](https://www.tensorflow.org/datasets/catalog/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 |
 
 Example usage of `tensorflow_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
 
@@ -176,7 +183,11 @@ Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where 
 
 ### Test TensorFlow Natural Language Processing (NLP)
 
-TODO: experiment details
+Experiment details:
+
+| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| SmallTransformer (custom) | [IMDB](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/imdb) | 200 | 5 | 25,000 train, 25,000 test | 2 |
 
 Example usage of `tensorflow_test_nlp.py` for 1 epoch and batch size of 32:
 
@@ -217,7 +228,11 @@ conda install pytorch::pytorch torchvision -c pytorch
 
 ### Test PyTorch Computer Vision (CIFAR100)
 
-TODO: experiment details, resnet50, cifar100, input image (3, 32, 32)
+Experiment details: 
+
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [CIFAR100](https://pytorch.org/vision/stable/generated/torchvision.datasets.CIFAR100.html) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 | 
 
 Example usage of `pytorch_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
@@ -245,9 +260,11 @@ Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `fi
 
 ### Test PyTorch Computer Vision (Food101)
 
-UPTOHERE: add details about PyTorch Computer Vision experiment with Food101
+Experiment details:
 
-TODO - experiment details in markdown table, resnet50, food101 dataset (much larger than CIFAR100), image size (224, 224, 3)
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [Food101](https://huggingface.co/datasets/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | 
 
 **Note:** Download Hugging Face Datasets to download Food101 dataset.
 
@@ -282,11 +299,13 @@ Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `fi
 
 ### Test PyTorch Natural Language Processing (NLP)
 
-TODO - experiment details, distil-bert, a few layers fine-tune, IMDB dataset, input text (1, 512) (tokenized)
+Experiment details:
+
+| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** |
+| --- | --- | --- | --- | --- | --- |
+| [DistilBERT](https://huggingface.co/distilbert-base-uncased) (fine-tune top 2 layers + top Transformer block) | [IMDB](https://huggingface.co/datasets/imdb) | 512 | 5 | 25,000 train, 25,000 test | 2 |
 
 > **Note:** The `pytorch_test_nlp.py` uses Hugging Face Transformers/Datasets/Evaluate/Accelerate to help with testing. If you get into ML, you'll likely come across these libraries, they are very useful for NLP and ML in general. The model loaded from Transformers uses PyTorch as a backend.
-
-TK - install transformers etc
 
 ```python
 python -m pip install transformers datasets evaluate accelerate
@@ -318,7 +337,11 @@ Results will be saved to `results/results_pytorch_nlp/[file_name].csv` where `fi
 
 ## Install and Test LlamaCPP (Llama 2 LLM test)
 
-TODO: Explain experiment - 20 questions, ask X times each, measure token generation per second
+Experiment details:
+
+| **Model** | **Task** | **Num Questions** | **Num Answers** | **Total Generations** |
+| --- | --- | --- | --- | --- | 
+| [Llama 2 7B .gguf format](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/blob/main/llama-2-7b-chat.Q4_0.gguf) | Text Generation | 20 | 5 | 20*5 = 100 | 
 
 * See: https://llama-cpp-python.readthedocs.io/en/latest/install/macos/ (note: this focuses on macOS install, I haven't tested with CUDA)
 
@@ -367,24 +390,73 @@ python llama2_test.py --path_to_gguf_model="llama-2-7b-chat.Q4_0.gguf" --num_que
 
 Results will be saved to `results/results_llama2/[file_name].csv` where `file_name` is a combination of information from the experiment (see `llama2_test.py` for details).
 
-- TODO Note on LLM files: you can use other .gguf models, e.g. llama-2-13b, 70b, other variants etc, I just went with 7b to demonstrate (as to run 70b, you will need a lot of RAM, ~70GB+ in half precision, [~40GB in Quantize 4 precision](https://huggingface.co/TheBloke/Llama-2-70B-Chat-GGUF/tree/main)) 
+* Note on LLM files: you can use other .gguf models, e.g. llama-2-13b, 70b, other variants etc, I just went with 7b to demonstrate (as to run 70b, you will need a lot of RAM, ~70GB+ in half precision, [~40GB in Quantize 4 precision](https://huggingface.co/TheBloke/Llama-2-70B-Chat-GGUF/tree/main)) 
 
 ## Results
 
-* TODO - combine results
-* Define the computers tested (e.g. all baseline models)
+The following are the machines I tested. For all of the M3 variants of the MacBook Pro's, they were the base model in their class (e.g. an M3 Pro MacBook Pro with no upgrades from the Apple Store).
+
+| **Machine** | **CPU** | **GPU** | **RAM** | **Storage** |
+| --- | --- | --- | --- | --- |
+| M1 Pro 14" 2021 | 10-core CPU | 16-core GPU | 32GB | 4TB SSD |
+| M3 14" 2023 | 8-core CPU | 10-core GPU | 8GB | 512GB SSD |
+| M3 Pro 14" 2023 | 11-core CPU | 14-core GPU | 18GB | 512GB SSD |
+| M3 Max 16" 2023 | 14-core CPU | 30-core GPU | 36GB | 1TB SSD |
+| Deep Learning PC | Intel i9 | NVIDIA TITAN RTX (24GB) | 32GB | 1TB SSD |
+| Google Colab Free Tier | 2-core CPU | NVIDIA Tesla V100 (16GB) | 12GB | 100GB SSD | 
+
+Notes: 
+
+* Only training time was measured as this generally takes far more time than inference (except for Llama 2 text generation, this was inference only). 
+* If a result isn't present for a particular machine, it means it either failed or didn't have enough memory to complete the test (e.g. M3 Pro 14" 2023 with 8GB RAM couldn't run batch size 64 for PyTorch CV Food101).
+
+### TensorFlow Computer Vision (CIFAR100)
+
+![TensorFlow CV CIFAR100](results/tensorflow_cv_resnet50_cifar100.png)
+
+### TensorFlow Computer Vision (Food101)
+
+![TensorFlow CV Food101](results/tensorflow_cv_resnet50_food101.png)
+
+### TensorFlow Natural Language Processing (NLP)
+
+![TensorFlow NLP](results/tensorflow_nlp_imdb.png)
+
+### PyTorch Computer Vision (CIFAR100)
+
+![PyTorch CV CIFAR100](results/pytorch_cv_resnet50_cifar100.png)
+
+### PyTorch Computer Vision (Food101)
+
+![PyTorch CV Food101](results/pytorch_cv_resnet50_food101.png)
+
+### PyTorch Natural Language Processing (NLP)
+
+![PyTorch NLP](results/pytorch_nlp_distilbert_imdb.png)
+
+### Llama 2 (LLM)
+
+![Llama 2 text generation](results/llamacpp_2_7b_chat_q4_0_gguf_tokens_per_second.png)
+
+## TK - Discussion
+
+## TK - Recommendations
+
+* Tl;DR go for as much RAM and GPU cores as you can afford, typically in that order
+* Or buy a NVIDIA GPU and setup a PC you can SSH into
 
 ## Notes
 
-* As far as I know, float16 (mixed-precision training) doesn't work on MPS devices, this is why I've used float32 for all tests, float16 will typically halve training times on compatible devices (e.g. NVIDIA GPUs)
-* Also, MPS doesn't support `torch.compile()` which also speeds up training times on NVIDIA Ampere GPUs & above
-* Tests should not be compared between frameworks, e.g. TensorFlow vs PyTorch for X task. They are more designed to compare the same code across hardware. 
 * Big big big: found you need to increase `ulimit -n` on M3 Pro and M3 Max to run larger experiments (e.g. default on M3 Pro, M3 Max is `ulimit -n 256`, I increased to `ulimit -n 2560` (10x increase, which is the default on the base M3 and my M1 Pro) and was able to run larger experiments, e.g. batch size 64+ for computer vision)
-    * TK - if you get the error `OSError: [Errno 24] Too many open files...` (or something similar), try increasing `ulimit -n`
+    * If you get the error `OSError: [Errno 24] Too many open files...` (or something similar), try increasing `ulimit -n`
+* As far as I know, float16 (mixed-precision training) doesn't work on MPS devices, this is why I've used float32 for all tests, float16 will typically halve training times on compatible devices (e.g. NVIDIA GPUs).
+* Also, MPS doesn't support `torch.compile()` which also speeds up training times on NVIDIA Ampere GPUs & above.
+* Tests should not be compared between frameworks, e.g. TensorFlow vs PyTorch for X task. They are more designed to compare the same code across hardware. 
 
 ## Potential upgrades
 
 * Add total memory count + num GPU cores to results e.g. "Apple_M1_Pro_18GB_Memory_14_GPU_Cores..."
 * Add scikit-learn/XGBoost tests, e.g. 100,000 rows, 1,000,000 rows?
 * Could I use Keras 3.0 for the same code to run on multiple backends? :thinking:
-* Could use `mlx` (Apple's ML framework for Apple Silicon) for further speed improvements? See this example of Llama 2 running on MLX - https://huggingface.co/mlx-llama/Llama-2-7b-chat-mlx 
+* Apple has recently released a deep learning framework called [`MLX`](https://github.com/ml-explore/mlx) which is designed for Apple Silicon, this may significantly improve speed on Apple Silicon Macs, see the `mlx/`directory for more. See this example of Llama 2 running on MLX - https://huggingface.co/mlx-llama/Llama-2-7b-chat-mlx 
+* Add GeekbenchML, see: https://www.geekbench.com/ml/ 
