@@ -23,19 +23,23 @@ The following experiments are run:
 
 While the focus is on Apple Silicon Macs, I've included my own deep learning PC (NVIDIA TITAN RTX) as well as a Google Colab free tier instance for comparison.
 
-## Base Environment Setup
+## Getting Setup
 
-TK - finish experiment setup 
+If you have a brand new machine, you'll need to setup a few things before running the experiments.
 
-* TODO: Make sure this works across new machines
-* TODO: If someone has a brand new machine, what do they do? E.g. install homebrew, conda-forge, github linking etc 
-* TODO: Someone should be able to delete their local file and recreate all of this from scratch
+The following steps will get you ready to go for all experiments (and many future machine learning experiments).
 
-- Install homebrew (or run `xcode-select --install` in terminal and skip to next step)
-* Go to: https://brew.sh/
-* Run the commands in the terminal
+However, if you've already got `conda`, feel free to skip to the next section.
 
-- Install miniforge to get conda: https://github.com/conda-forge/miniforge 
+### Base environment setup 
+
+1. Install homebrew (or run `xcode-select --install` in terminal and skip to next step)
+
+Go to https://brew.sh/ and follow the main instructions on the front page.
+
+Run the commands on the homebrew webpage in the terminal and follow the instructions when they appear.
+
+2. Install miniforge to get conda: https://github.com/conda-forge/miniforge 
 
 ```
 brew install miniforge
@@ -43,55 +47,62 @@ brew install miniforge
 
 or
 
-* Download Miniforge3 for macOS ARM64 from: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-* Run the following commands in terminal:
+Download Miniforge3 for macOS ARM64 from: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+
+3. Run the following commands in terminal with Miniforge3 downloaded into the `~/Downloads` folder:
 
 ```
 chmod +x ~/Downloads/Miniforge3-MacOSX-arm64.sh
 sh ~/Downloads/Miniforge3-MacOSX-arm64.sh
 ```
 
-Follow the steps, for example, answer "yes", "yes", "ok" etc.
-
-Initialize conda to see if it works.
+4. Follow the steps, for example, answer "yes", "yes", "ok" etc and then initialize conda to see if it works.
 
 ```
 source ~/miniforge3/bin/activate
 ```
 
-Restart terminal and check conda is working.
+5. **Important:** Restart terminal and check conda is working.
 
-- Clone this repo
+If conda is working, you should have a `(base)` at the start of your terminal prompt.
+
+For example: `(base) daniel@Daniels-MacBook-Pro-3 ~ %`
+
+### Setting up for machine learning tests
+
+1. Clone this repo.
 
 ```
 git clone https://github.com/mrdbourke/mac-ml-speed-test.git 
 ```
 
-- Change into the repo directory
+2. Change into the repo directory.
 
 ```
 cd mac-ml-speed-test
 ```
 
-- Create conda env
+3. Create conda environment.
 
 ```python
 conda create --prefix ./env python=3.10
 ```
 
-- Check conda envs
+**Note:** You could also use `conda create --name some-env-name python=3.10` but I prefer `--prefix` as it's more explicit.
+
+4. Check conda environments.
 
 ```
 conda env list
 ```
 
-- Activate conda env
+5. Activate newly created conda environment.
 
 ```
 conda activate ./env
 ```
 
-- Install necessities/helpers
+6. Install necessities/helper packages.
 
 **Note:** This may have a few extra packages that aren't 100% needed for speed tests but help to have (e.g. JupyterLab, PrettyTable).
 
@@ -101,9 +112,9 @@ conda install -c conda-forge pip pandas numpy matplotlib scikit-learn jupyterlab
 
 ## Install and Test TensorFlow
 
-For more see guide: https://developer.apple.com/metal/tensorflow-plugin/
+For more on running TensorFlow on macOS, see [Apple's developer guide](https://developer.apple.com/metal/tensorflow-plugin/). 
 
-> **Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
+**Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
 
 ```python
 python -m pip install tensorflow
@@ -442,6 +453,8 @@ Notes:
 
 All tests done using [Geekbench ML 0.6.0](https://www.geekbench.com/ml/) for Mac.
 
+Tests include a series of [inference-only benchmarks](https://www.geekbench.com/doc/ml-0.6-inference-workloads.pdf) across different domains.
+
 | Machine                        | Num CPU cores | CPU  | CPU-link                                                     | Num GPU Cores | GPU  | GPU-link                                                     | Neural Engine | Neural Engine-link                                             |
 |--------------------------------|---------------|------|--------------------------------------------------------------|---------------|------|--------------------------------------------------------------|---------------|---------------------------------------------------------------|
 | MacBook Pro M1 Pro 14 inch, 2021| 10            | 1809 | [Link](https://browser.geekbench.com/ml/v0/inference/330843) | 16            | 5192 | [Link](https://browser.geekbench.com/ml/v0/inference/330844) | 6462          | [Link](https://browser.geekbench.com/ml/v0/inference/330846) |
@@ -471,6 +484,8 @@ For the best results, you'll want to always pack as much data into the GPU as po
 I thought that the unified memory system on the M-series chips would reduce copying overheads. Perhaps this is not yet the case from a software perspective (e.g. PyTorch and TensorFlow are not designed for Apple Silicon).
 
 Maybe newer frameworks designed for Apple Silicon such as [MLX](https://github.com/ml-explore/mlx) will better utilize the unified memory system. This will require further investigation. 
+
+The Geekbench ML results were as expected (newer and bigger chips doing better) with the exception of the M3 Max performing slightly worse on the Neural Engine than the M3 Pro. However, I'd take this number with a grain of salt as it will likely be close to unnoticed in real-world applications. 
 
 ## TK - Recommendations
 
