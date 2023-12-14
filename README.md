@@ -13,13 +13,13 @@ The focus of these experiments is to get a quick benchmark across various ML pro
 The focus is on hardware comparison rather than framework to framework comparison and measuring speed rather than accuracy.
 
 The following experiments are run:
-* TensorFlow Computer Vision (CIFAR100)
-* TensorFlow Computer Vision (Food101)
-* TensorFlow Natural Language Processing (NLP)
-* PyTorch Computer Vision (CIFAR100)
-* PyTorch Computer Vision (Food101)
-* PyTorch Natural Language Processing (NLP)
-* LlamaCPP LLM test (generate text with Llama 2)
+* TensorFlow Computer Vision (CIFAR100 image classication)
+* TensorFlow Computer Vision (Food101 image classification)
+* TensorFlow Natural Language Processing (NLP text classification)
+* PyTorch Computer Vision (CIFAR100 image classification)
+* PyTorch Computer Vision (Food101 image classification)
+* PyTorch Natural Langua2ge Processing (NLP text classification)
+* LlamaCPP LLM test (text generation)
 
 While the focus is on Apple Silicon Macs, I've included my own deep learning PC (NVIDIA TITAN RTX) as well as a Google Colab free tier instance for comparison.
 
@@ -121,9 +121,9 @@ python -m pip install tensorflow_datasets
 
 Experiment details:
 
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 |
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 | Image Classification |
 
 Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
@@ -153,9 +153,9 @@ Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where 
 
 Experiment details:
 
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [Food101](https://www.tensorflow.org/datasets/catalog/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 |
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [Food101](https://www.tensorflow.org/datasets/catalog/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | Image Classification |
 
 Example usage of `tensorflow_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
 
@@ -185,9 +185,9 @@ Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where 
 
 Experiment details:
 
-| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| SmallTransformer (custom) | [IMDB](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/imdb) | 200 | 5 | 25,000 train, 25,000 test | 2 |
+| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| SmallTransformer (custom) | [IMDB](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/imdb) | 200 | 5 | 25,000 train, 25,000 test | 2 | Text Classification |
 
 Example usage of `tensorflow_test_nlp.py` for 1 epoch and batch size of 32:
 
@@ -230,9 +230,9 @@ conda install pytorch::pytorch torchvision -c pytorch
 
 Experiment details: 
 
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [CIFAR100](https://pytorch.org/vision/stable/generated/torchvision.datasets.CIFAR100.html) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 | 
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [CIFAR100](https://pytorch.org/vision/stable/generated/torchvision.datasets.CIFAR100.html) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 |  Image Classification |
 
 Example usage of `pytorch_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
 
@@ -262,9 +262,9 @@ Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `fi
 
 Experiment details:
 
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [Food101](https://huggingface.co/datasets/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | 
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) | [Food101](https://huggingface.co/datasets/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | Image Classification |
 
 **Note:** Download Hugging Face Datasets to download Food101 dataset.
 
@@ -301,9 +301,9 @@ Results will be saved to `results/results_pytorch_cv/[file_name].csv`  where `fi
 
 Experiment details:
 
-| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** |
-| --- | --- | --- | --- | --- | --- |
-| [DistilBERT](https://huggingface.co/distilbert-base-uncased) (fine-tune top 2 layers + top Transformer block) | [IMDB](https://huggingface.co/datasets/imdb) | 512 | 5 | 25,000 train, 25,000 test | 2 |
+| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [DistilBERT](https://huggingface.co/distilbert-base-uncased) (fine-tune top 2 layers + top Transformer block) | [IMDB](https://huggingface.co/datasets/imdb) | 512 | 5 | 25,000 train, 25,000 test | 2 | Text Classification |
 
 > **Note:** The `pytorch_test_nlp.py` uses Hugging Face Transformers/Datasets/Evaluate/Accelerate to help with testing. If you get into ML, you'll likely come across these libraries, they are very useful for NLP and ML in general. The model loaded from Transformers uses PyTorch as a backend.
 
