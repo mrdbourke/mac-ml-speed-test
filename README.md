@@ -438,12 +438,63 @@ Notes:
 
 ![Llama 2 text generation](results/llamacpp_2_7b_chat_q4_0_gguf_tokens_per_second.png)
 
+### Geekbench ML
+
+All tests done using [Geekbench ML 0.6.0](https://www.geekbench.com/ml/) for Mac.
+
+| Machine                        | Num CPU cores | CPU  | CPU-link                                                     | Num GPU Cores | GPU  | GPU-link                                                     | Neural Engine | Neural Engine-link                                             |
+|--------------------------------|---------------|------|--------------------------------------------------------------|---------------|------|--------------------------------------------------------------|---------------|---------------------------------------------------------------|
+| MacBook Pro M1 Pro 14 inch, 2021| 10            | 1809 | [Link](https://browser.geekbench.com/ml/v0/inference/330843) | 16            | 5192 | [Link](https://browser.geekbench.com/ml/v0/inference/330844) | 6462          | [Link](https://browser.geekbench.com/ml/v0/inference/330846) |
+| MacBook Pro M3 14 inch, 2023   | 8             | 2356 | [Link](https://browser.geekbench.com/ml/v0/inference/330849) | 10            | 5747 | [Link](https://browser.geekbench.com/ml/v0/inference/330850) | 8399          | [Link](https://browser.geekbench.com/ml/v0/inference/330853) |
+| MacBook Pro M3 Pro 14 inch, 2023| 11            | 2355 | [Link](https://browser.geekbench.com/ml/v0/inference/330860) | 14            | 7030 | [Link](https://browser.geekbench.com/ml/v0/inference/330861) | 10237         | [Link](https://browser.geekbench.com/ml/v0/inference/330859) |
+| MacBook Pro M3 Max 14 inch, 2023| 14            | 2393 | [Link](https://browser.geekbench.com/ml/v0/inference/330866) | 30            | 9008 | [Link](https://browser.geekbench.com/ml/v0/inference/330869) | 9260          | [Link](https://browser.geekbench.com/ml/v0/inference/330901) |
+
+
 ## TK - Discussion
+
+It's quite clear that the newest M3 Macs are quite capable of machine learning tasks.
+
+However, dedicated NVIDIA GPUs still have a clear lead.
+
+The results also show that more GPU cores and more RAM equates to better performance (e.g. M3 Max outperforming most other Macs on *most* batch sizes).
+
+An interesting result was that the M3 base chip outperformed (or performed level with) the M3 Pro and M3 Max on smaller-scale experiments (CIFAR100, smaller batch sizes).
+
+I'm not 100% sure why this is the case but my intuition tells me this is likely because the overhead of copying data to and from the GPU is more expensive than the actual training itself (e.g. the GPU is waiting for data to be copied to it, rather than being fully utilized).
+
+So in practice, the M3 can compete with M3 Pro and M3 Max because the actual computation doesn't take long but the copying does.
+
+Either way, the Food101 examples show a more realistic example with larger image sizes. It's here that the machines with more GPU cores perform faster and the machines with more RAM can handle larger batch sizes.
+
+For the best results, you'll want to always pack as much data into the GPU as possible (to utilize all of your GPU cores) and avoid copying data between memory.
+
+I thought that the unified memory system on the M-series chips would reduce copying overheads. Perhaps this is not yet the case from a software perspective (e.g. PyTorch and TensorFlow are not designed for Apple Silicon).
+
+Maybe newer frameworks designed for Apple Silicon such as [MLX](https://github.com/ml-explore/mlx) will better utilize the unified memory system. This will require further investigation. 
 
 ## TK - Recommendations
 
-* Tl;DR go for as much RAM and GPU cores as you can afford, typically in that order
-* Or buy a NVIDIA GPU and setup a PC you can SSH into
+For smaller experiments, fine-tuning models and learning the fundamentals of machine learning, the M3 Macs will be more than fine to use.
+
+But for larger scale workloads, you'll likely still want a dedicated NVIDIA GPU.
+
+Personally, I use my M1 MacBook Pro as a daily driver but perform all larger-scale deep learning experiments on my NVIDIA GPU PC (connected via SSH). For example, I do plenty of data exploration for [Nutrify](https://nutrify.app/) (an app my brother I have built to help people learn about food) but all model training happens on a NVIDIA Titan RTX.
+
+And Google Colab helps to fill in the gaps whenever necessary.
+
+Based on the results across the new M3 Macs, I'm not personally going to upgrade my M1 MacBook Pro.
+
+But I am curious to see how a spec'd up M3 Max (or future M3 Ultra) would go with a dedicated MLX model against my NVIDIA GPU PC.
+
+In summary my recommendations are:
+
+* Go for as much RAM and GPU cores as you can afford, typically in that order.
+    * More GPU cores = faster training/inference.
+    * More RAM = larger batch sizes/models.
+* Avoid the 8GB RAM M3, 16GB is a good minimum.
+    * As value for money, the M3 Pro with a RAM upgrade (16GB -> 36GB) and GPU upgrade (14-cores -> 18 cores) still comes in cheaper than an M3 Max.
+* If you've got the option, perhaps spend less on a MacBook and buy a dedicated NVIDIA GPU and setup a deep learning PC you can SSH into (this is what I do).
+    * For example, get the baseline M3 with a RAM upgrade and spend the rest of the money on a NVIDIA GPU. 
 
 ## Notes
 
@@ -458,5 +509,4 @@ Notes:
 * Add total memory count + num GPU cores to results e.g. "Apple_M1_Pro_18GB_Memory_14_GPU_Cores..."
 * Add scikit-learn/XGBoost tests, e.g. 100,000 rows, 1,000,000 rows?
 * Could I use Keras 3.0 for the same code to run on multiple backends? :thinking:
-* Apple has recently released a deep learning framework called [`MLX`](https://github.com/ml-explore/mlx) which is designed for Apple Silicon, this may significantly improve speed on Apple Silicon Macs, see the `mlx/`directory for more. See this example of Llama 2 running on MLX - https://huggingface.co/mlx-llama/Llama-2-7b-chat-mlx 
-* Add GeekbenchML, see: https://www.geekbench.com/ml/ 
+* Apple has recently released a deep learning framework called [`MLX`](https://github.com/ml-explore/mlx) which is designed for Apple Silicon, this may significantly improve speed on Apple Silicon Macs, see the `mlx/` directory for more. See this example of Llama 2 running on MLX - https://huggingface.co/mlx-llama/Llama-2-7b-chat-mlx 
