@@ -86,9 +86,7 @@ def train_step(model: torch.nn.Module,
 
         # Send data to target device
         X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
-#         X, y = X.to(device, non_blocking=True, memory_format=torch.channels_last), y.to(device, non_blocking=True)
-#         X, y = X.to(device), y.to(device)
-
+        
         # 1. Forward pass
         y_pred = model(X)
 

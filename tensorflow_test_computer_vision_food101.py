@@ -70,14 +70,18 @@ def train_and_time(batch_sizes=BATCH_SIZES,
         # Map preprocessing function to data and turn into batches
         train_data_batched = train_data.map(lambda image, label: (preprocess_layer(image), label)).shuffle(1000).batch(batch_size).prefetch(tf.data.AUTOTUNE)
         # train_data = train_data.map(lambda image, label: (preprocess_layer(image), label)).shuffle(1000)
-        test_data = test_data.map(lambda image, label: (preprocess_layer(image), label))# don't shuffle test data (we're not using it anyway)
+        test_data = test_data.map(lambda image, label: (preprocess_layer(image), label)) # don't shuffle test data (we're not using it anyway)
+
+        # Print shape of first training batch
+        for image_batch, label_batch in train_data_batched.take(1):
+            print(f"[INFO] Training batch shape: {image_batch.shape}, label batch shape: {label_batch.shape}")
 
         # Create model
         model = tf.keras.applications.ResNet50(
                         include_top=True,
                         weights=None,
                         input_shape=INPUT_SHAPE,
-                        classes=100,)
+                        classes=101,)
 
         # Create loss function and compile model
         loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
@@ -101,12 +105,14 @@ def train_and_time(batch_sizes=BATCH_SIZES,
             batch_size_training_results.append({"batch_size": batch_size,
                                                 "avg_time_per_epoch": avg_time_per_epoch})
             print(f"[INFO] Finished training with batch size {batch_size} for {epochs} epochs, total time: {round(total_training_time, 3)} seconds, avg time per epoch: {round(avg_time_per_epoch, 3)} seconds\n\n")
+            
             save_results(batch_size_training_results)
         except Exception as e:
             print(f"[INFO] Error: {e}")
             print(f"[INFO] Failed training with batch size {batch_size} for {epochs} epochs...\n\n")
             batch_size_training_results.append({"batch_size": batch_size,
                                                 "avg_time_per_epoch": "FAILED"})
+            
             save_results(batch_size_training_results)
             break
 

@@ -407,14 +407,14 @@ Results will be saved to `results/results_llama2/[file_name].csv` where `file_na
 
 The following are the machines I tested. For all of the M3 variants of the MacBook Pro's, they were the base model in their class (e.g. an M3 Pro MacBook Pro with no upgrades from the Apple Store).
 
-| **Machine** | **CPU** | **GPU** | **RAM** | **Storage** |
-| --- | --- | --- | --- | --- |
-| M1 Pro 14" 2021 | 10-core CPU | 16-core GPU | 32GB | 4TB SSD |
-| M3 14" 2023 | 8-core CPU | 10-core GPU | 8GB | 512GB SSD |
-| M3 Pro 14" 2023 | 11-core CPU | 14-core GPU | 18GB | 512GB SSD |
-| M3 Max 16" 2023 | 14-core CPU | 30-core GPU | 36GB | 1TB SSD |
-| Deep Learning PC | Intel i9 | NVIDIA TITAN RTX (24GB) | 32GB | 1TB SSD |
-| Google Colab Free Tier | 2-core CPU | NVIDIA Tesla V100 (16GB) | 12GB | 100GB SSD | 
+| **Machine** | **CPU** | **GPU** | **RAM** | **Storage** | **Price (USD)** |
+| --- | --- | --- | --- | --- | --- |
+| M1 Pro 14" 2021 | 10-core CPU | 16-core GPU | 32GB | 4TB SSD | ~$3,500 | 
+| M3 14" 2023 | 8-core CPU | 10-core GPU | 8GB | 512GB SSD | $1,599 |
+| M3 Pro 14" 2023 | 11-core CPU | 14-core GPU | 18GB | 512GB SSD | $1,999 |
+| M3 Max 14" 2023 | 14-core CPU | 30-core GPU | 36GB | 1TB SSD | $3,199 |
+| Deep Learning PC | Intel i9 | NVIDIA TITAN RTX (24GB) | 32GB | 1TB SSD | ~$3,000 |
+| Google Colab Free Tier | 2-core CPU | NVIDIA Tesla V100 (16GB) | 12GB | 100GB SSD | Free or $10/month for more compute |
 
 Notes: 
 
