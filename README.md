@@ -12,13 +12,14 @@ The focus of these experiments is to get a quick benchmark across various ML pro
 
 The focus is on hardware comparison rather than framework to framework comparison and measuring speed rather than accuracy.
 
-The following experiments are run:
-* TensorFlow Computer Vision (CIFAR100 image classication)
-* TensorFlow Computer Vision (Food101 image classification)
-* TensorFlow Natural Language Processing (NLP text classification)
+This repo contains code for the following experiments:
+
 * PyTorch Computer Vision (CIFAR100 image classification)
 * PyTorch Computer Vision (Food101 image classification)
 * PyTorch Natural Langua2ge Processing (NLP text classification)
+* TensorFlow Computer Vision (CIFAR100 image classication)
+* TensorFlow Computer Vision (Food101 image classification)
+* TensorFlow Natural Language Processing (NLP text classification)
 * LlamaCPP LLM test (text generation)
 
 While the focus is on Apple Silicon Macs, I've included my own deep learning PC (NVIDIA TITAN RTX) as well as a Google Colab free tier instance for comparison.
@@ -109,121 +110,6 @@ conda activate ./env
 ```python
 conda install -c conda-forge pip pandas numpy matplotlib scikit-learn jupyterlab langchain prettytable py-cpuinfo tqdm
 ```
-
-## Install and Test TensorFlow
-
-For more on running TensorFlow on macOS, see [Apple's developer guide](https://developer.apple.com/metal/tensorflow-plugin/). 
-
-**Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
-
-```python
-python -m pip install tensorflow
-python -m pip install tensorflow-metal  
-python -m pip install tensorflow_datasets
-```
-
-> **Note:** TensorFlow can be run on macOS *without* using the GPU via `pip install tensorflow`, however, if you're using an Apple Silicon Mac, you'll want to use the Metal plugin for GPU acceleration (`pip install tensorflow-metal`).
-> 
-> After installing `tensorflow-metal` and running the scripts, you should see something like: 
->
-> `2023-12-06 12:22:02.016745: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.`
-
-### Test TensorFlow Computer Vision (CIFAR100)
-
-Experiment details:
-
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 | Image Classification |
-
-Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
-
-```
-python tensorflow_test_computer_vision_cifar100.py --epochs=1 --batch_sizes="32"
-```
-
-Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
-
-Default behaviour is to test for `5` epochs and batch sizes of `"16, 32, 64, 128, 256, 512, 1024"`.
-
-The following:
-
-```
-python tensorflow_test_computer_vision_cifar100.py
-```
-
-Is equivalent to:
-
-```
-python tensorflow_test_computer_vision_cifar100.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
-```
-
-Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_cifar100.py` for details). 
-
-### Test TensorFlow Computer Vision (Food101)
-
-Experiment details:
-
-| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [Food101](https://www.tensorflow.org/datasets/catalog/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | Image Classification |
-
-Example usage of `tensorflow_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
-
-```
-python tensorflow_test_computer_vision_food101.py --epochs=1 --batch_sizes="32"
-```
-
-Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128"`.
-
-Default behaviour is to test for `3` epochs and batch sizes of `"32, 64, 128"`.
-
-The following:
-
-```
-python tensorflow_test_computer_vision_food101.py
-```
-
-Is equivalent to:
-
-```
-python tensorflow_test_computer_vision_food101.py --epochs=3 --batch_sizes="32, 64, 128"
-```
-
-Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_food101.py` for details).
-
-### Test TensorFlow Natural Language Processing (NLP)
-
-Experiment details:
-
-| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
-| --- | --- | --- | --- | --- | --- | --- |
-| SmallTransformer (custom) | [IMDB](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/imdb) | 200 | 5 | 25,000 train, 25,000 test | 2 | Text Classification |
-
-Example usage of `tensorflow_test_nlp.py` for 1 epoch and batch size of 32:
-
-```
-python tensorflow_test_nlp.py --epochs=1 --batch_sizes="32"
-```
-
-Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
-
-Default behaviour is to test for `3` epochs and batch sizes of `"16, 32, 64, 128"`.
-
-The following:
-
-```
-python tensorflow_test_nlp.py
-```
-
-Is equivalent to:
-
-```
-python tensorflow_test_nlp.py --epochs=3 --batch_sizes="16, 32, 64, 128"
-```
-
-Results will be saved to `results/results_tensorflow_nlp/[file_name].csv` where `file_name` is a combination of information from the experiment (see `tensorflow_test_nlp.py` for details).
-
 
 ## Install and Test PyTorch/Hugging Face Transformers
 
@@ -345,6 +231,120 @@ python pytorch_test_nlp.py --epochs=3 --batch_sizes="16, 32, 64, 128, 256, 512"
 ```
 
 Results will be saved to `results/results_pytorch_nlp/[file_name].csv` where `file_name` is a combination of information from the experiment (see `pytorch_test_nlp.py` for details).
+
+## Install and Test TensorFlow
+
+For more on running TensorFlow on macOS, see [Apple's developer guide](https://developer.apple.com/metal/tensorflow-plugin/). 
+
+**Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
+
+```python
+python -m pip install tensorflow
+python -m pip install tensorflow-metal  
+python -m pip install tensorflow_datasets
+```
+
+> **Note:** TensorFlow can be run on macOS *without* using the GPU via `pip install tensorflow`, however, if you're using an Apple Silicon Mac, you'll want to use the Metal plugin for GPU acceleration (`pip install tensorflow-metal`).
+> 
+> After installing `tensorflow-metal` and running the scripts, you should see something like: 
+>
+> `2023-12-06 12:22:02.016745: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:117] Plugin optimizer for device_type GPU is enabled.`
+
+### Test TensorFlow Computer Vision (CIFAR100)
+
+Experiment details:
+
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [CIFAR100](https://www.tensorflow.org/datasets/catalog/cifar100) | 32x32x3 | 5 | 50,000 train, 10,000 test | 100 | Image Classification |
+
+Example usage of `tensorflow_test_computer_vision_cifar100.py` for 1 epoch and batch size of 32:
+
+```
+python tensorflow_test_computer_vision_cifar100.py --epochs=1 --batch_sizes="32"
+```
+
+Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
+
+Default behaviour is to test for `5` epochs and batch sizes of `"16, 32, 64, 128, 256, 512, 1024"`.
+
+The following:
+
+```
+python tensorflow_test_computer_vision_cifar100.py
+```
+
+Is equivalent to:
+
+```
+python tensorflow_test_computer_vision_cifar100.py --epochs=5 --batch_sizes="16, 32, 64, 128, 256, 512, 1024"
+```
+
+Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_cifar100.py` for details). 
+
+### Test TensorFlow Computer Vision (Food101)
+
+Experiment details:
+
+| **Model** | **Dataset** | **Image Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/resnet50/ResNet50) | [Food101](https://www.tensorflow.org/datasets/catalog/food101) | 224x224x3 | 5 | 75,750 train, 25,250 test | 101 | Image Classification |
+
+Example usage of `tensorflow_test_computer_vision_food101.py` for 1 epoch and batch size of 32:
+
+```
+python tensorflow_test_computer_vision_food101.py --epochs=1 --batch_sizes="32"
+```
+
+Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128"`.
+
+Default behaviour is to test for `3` epochs and batch sizes of `"32, 64, 128"`.
+
+The following:
+
+```
+python tensorflow_test_computer_vision_food101.py
+```
+
+Is equivalent to:
+
+```
+python tensorflow_test_computer_vision_food101.py --epochs=3 --batch_sizes="32, 64, 128"
+```
+
+Results will be saved to `results/results_tensorflow_cv/[file_name].csv`  where `file_name` is a combination of information from the experiment (see `tensorflow_test_computer_vision_food101.py` for details).
+
+### Test TensorFlow Natural Language Processing (NLP)
+
+Experiment details:
+
+| **Model** | **Dataset** | **Sequence Size** | **Epochs** | **Num Samples** | **Num Classes** | **Problem Type** |
+| --- | --- | --- | --- | --- | --- | --- |
+| SmallTransformer (custom) | [IMDB](https://www.tensorflow.org/api_docs/python/tf/keras/datasets/imdb) | 200 | 5 | 25,000 train, 25,000 test | 2 | Text Classification |
+
+Example usage of `tensorflow_test_nlp.py` for 1 epoch and batch size of 32:
+
+```
+python tensorflow_test_nlp.py --epochs=1 --batch_sizes="32"
+```
+
+Batch sizes can be a comma-separated list of batch sizes, e.g. `"32, 64, 128, 256"`.
+
+Default behaviour is to test for `3` epochs and batch sizes of `"16, 32, 64, 128"`.
+
+The following:
+
+```
+python tensorflow_test_nlp.py
+```
+
+Is equivalent to:
+
+```
+python tensorflow_test_nlp.py --epochs=3 --batch_sizes="16, 32, 64, 128"
+```
+
+Results will be saved to `results/results_tensorflow_nlp/[file_name].csv` where `file_name` is a combination of information from the experiment (see `tensorflow_test_nlp.py` for details).
 
 ## Install and Test LlamaCPP (Llama 2 LLM test)
 
