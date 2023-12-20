@@ -463,7 +463,7 @@ Tests include a series of [inference-only benchmarks](https://www.geekbench.com/
 | MacBook Pro M3 Max 14 inch, 2023| 14            | 2393 | [Link](https://browser.geekbench.com/ml/v0/inference/330866) | 30            | 9008 | [Link](https://browser.geekbench.com/ml/v0/inference/330869) | 9260          | [Link](https://browser.geekbench.com/ml/v0/inference/330901) |
 
 
-## TK - Discussion
+## Discussion
 
 It's quite clear that the newest M3 Macs are quite capable of machine learning tasks.
 
@@ -487,7 +487,7 @@ Maybe newer frameworks designed for Apple Silicon such as [MLX](https://github.c
 
 The Geekbench ML results were as expected (newer and bigger chips doing better) with the exception of the M3 Max performing slightly worse on the Neural Engine than the M3 Pro. However, I'd take this number with a grain of salt as it will likely be close to unnoticed in real-world applications. 
 
-## TK - Recommendations
+## Recommendations
 
 For smaller experiments, fine-tuning models and learning the fundamentals of machine learning, the M3 Macs will be more than fine to use.
 
