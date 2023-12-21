@@ -460,7 +460,7 @@ Tests include a series of [inference-only benchmarks](https://www.geekbench.com/
 | MacBook Pro M1 Pro 14 inch, 2021| 10            | 1809 | [Link](https://browser.geekbench.com/ml/v0/inference/330843) | 16            | 5192 | [Link](https://browser.geekbench.com/ml/v0/inference/330844) | 6462          | [Link](https://browser.geekbench.com/ml/v0/inference/330846) |
 | MacBook Pro M3 14 inch, 2023   | 8             | 2356 | [Link](https://browser.geekbench.com/ml/v0/inference/330849) | 10            | 5747 | [Link](https://browser.geekbench.com/ml/v0/inference/330850) | 8399          | [Link](https://browser.geekbench.com/ml/v0/inference/330853) |
 | MacBook Pro M3 Pro 14 inch, 2023| 11            | 2355 | [Link](https://browser.geekbench.com/ml/v0/inference/330860) | 14            | 7030 | [Link](https://browser.geekbench.com/ml/v0/inference/330861) | 10237         | [Link](https://browser.geekbench.com/ml/v0/inference/330859) |
-| MacBook Pro M3 Max 14 inch, 2023| 14            | 2393 | [Link](https://browser.geekbench.com/ml/v0/inference/330866) | 30            | 9008 | [Link](https://browser.geekbench.com/ml/v0/inference/330869) | 9260          | [Link](https://browser.geekbench.com/ml/v0/inference/330901) |
+| MacBook Pro M3 Max 14 inch, 2023| 14            | 2393 | [Link](https://browser.geekbench.com/ml/v0/inference/330866) | 30            | 9008 | [Link](https://browser.geekbench.com/ml/v0/inference/330869) | 9450          | [Link](https://browser.geekbench.com/ml/v0/inference/334715) |
 
 
 ## Discussion

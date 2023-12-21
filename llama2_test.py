@@ -41,9 +41,11 @@ if __name__ == "__main__":
     parser.add_argument('--num_times_per_question', default=5, type=int, help='Number of times to ask each question')
     parser.add_argument('--num_questions', default='all', type=str, help='Number of questions to ask, default "all", can be a positive integer between 1 and 20')
     parser.add_argument('--max_tokens', default=500, type=int, help='Max tokens to generate per question, default 500')
-    parser.add_argument('--stream_output', default=False, type=bool, help='Stream output from Llama 2')
+    parser.add_argument('--stream_output', action='store_true', help='Stream output token by token, may reduce speed')
     args = parser.parse_args()
 
+    if args.stream_output == True:
+        print(f"[INFO] Streaming output set to: {args.stream_output}, this will print the output token by token, may reduce speed")
 
     # Prompt questions for the model (using "Let's think step by step..." for verbosity of output)
     # See "Let's think step by step..." paper: https://arxiv.org/abs/2205.11916 
