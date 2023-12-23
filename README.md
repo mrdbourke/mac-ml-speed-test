@@ -1,4 +1,6 @@
-# Mac Machine Learning Speed Test (work in progress)
+# Mac Machine Learning Speed Test
+
+[Blog post](https://www.mrdbourke.com/apple-m3-machine-learning-test/) | [Video walkthrough](https://youtu.be/cpYqED1q6ro)
 
 A collection of simple scripts focused on benchmarking the speed of various machine learning models on Apple Silicon Macs (M1, M2, M3).
 
@@ -12,15 +14,16 @@ The focus of these experiments is to get a quick benchmark across various ML pro
 
 The focus is on hardware comparison rather than framework to framework comparison and measuring speed rather than accuracy.
 
-This repo contains code for the following experiments:
+This repo contains code/results for the following experiments:
 
-* PyTorch Computer Vision (CIFAR100 image classification)
-* PyTorch Computer Vision (Food101 image classification)
-* PyTorch Natural Langua2ge Processing (NLP text classification)
-* TensorFlow Computer Vision (CIFAR100 image classication)
-* TensorFlow Computer Vision (Food101 image classification)
-* TensorFlow Natural Language Processing (NLP text classification)
-* LlamaCPP LLM test (text generation)
+1. PyTorch Computer Vision (CIFAR100 image classification)
+2. PyTorch Computer Vision (Food101 image classification)
+3. PyTorch Natural Langua2ge Processing (NLP text classification)
+4. TensorFlow Computer Vision (CIFAR100 image classication)
+5. TensorFlow Computer Vision (Food101 image classification)
+6. TensorFlow Natural Language Processing (NLP text classification)
+7. LlamaCPP LLM test (text generation)
+8. Geekbench ML (inference-only benchmarks)
 
 While the focus is on Apple Silicon Macs, I've included my own deep learning PC (NVIDIA TITAN RTX) as well as a Google Colab free tier instance for comparison.
 
