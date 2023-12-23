@@ -451,7 +451,7 @@ Notes:
 
 ### Geekbench ML
 
-All tests done using [Geekbench ML 0.6.0](https://www.geekbench.com/ml/) for Mac.
+All tests were done using [Geekbench ML 0.6.0](https://www.geekbench.com/ml/) for Mac.
 
 Tests include a series of [inference-only benchmarks](https://www.geekbench.com/doc/ml-0.6-inference-workloads.pdf) across different domains.
 
