@@ -1,0 +1,4 @@
+batch_size,avg_time_per_epoch
+32,978.023248337
+64,918.4188231516667
+128,FAILED

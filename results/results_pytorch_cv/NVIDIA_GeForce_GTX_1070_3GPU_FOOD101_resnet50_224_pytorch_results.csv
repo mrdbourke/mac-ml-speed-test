@@ -1,0 +1,3 @@
+batch_size,avg_time_per_epoch
+32,2014.315481198
+64,2589.303004844
