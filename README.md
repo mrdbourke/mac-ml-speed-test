@@ -89,7 +89,7 @@ cd mac-ml-speed-test
 3. Create conda environment.
 
 ```python
-conda create --prefix ./env python=3.10
+conda create --prefix ./env python=3.11
 ```
 
 **Note:** You could also use `conda create --name some-env-name python=3.10` but I prefer `--prefix` as it's more explicit.
@@ -111,7 +111,7 @@ conda activate ./env
 **Note:** This may have a few extra packages that aren't 100% needed for speed tests but help to have (e.g. JupyterLab, PrettyTable).
 
 ```python
-conda install -c conda-forge pip pandas numpy matplotlib scikit-learn jupyterlab langchain prettytable py-cpuinfo tqdm
+conda install -c conda-forge pip pandas numpy matplotlib jupyterlab langchain prettytable py-cpuinfo tqdm
 ```
 
 ## Install and Test PyTorch/Hugging Face Transformers
@@ -121,7 +121,11 @@ conda install -c conda-forge pip pandas numpy matplotlib scikit-learn jupyterlab
 * Hugging Face Guides to Install [Transformers](https://huggingface.co/docs/transformers/installation), [Datasets](https://huggingface.co/docs/datasets/installation), [Evaluate](https://huggingface.co/docs/evaluate/installation), [Accelerate](https://huggingface.co/docs/accelerate/basic_tutorials/install).
 
 ```python
+# For Apple Silicon Macs/MPS GPUs
 conda install pytorch::pytorch torchvision -c pytorch
+
+# For Nvidia/CUDA GPUs
+conda install pytorch torchvision pytorch-cuda=12.1 -c pytorch -c nvidia
 ```
 
 > **Note:** MPS (Metal Performance Shaders, aka using the GPU on Apple Silicon) comes standard with PyTorch on macOS, you don't need to install anything extra. MPS can be accessed via [`torch.mps`](https://pytorch.org/docs/stable/mps.html), see more [notes in the PyTorch documentation](https://pytorch.org/docs/stable/notes/mps.html).
@@ -208,7 +212,7 @@ Experiment details:
 > **Note:** The `pytorch_test_nlp.py` uses Hugging Face Transformers/Datasets/Evaluate/Accelerate to help with testing. If you get into ML, you'll likely come across these libraries, they are very useful for NLP and ML in general. The model loaded from Transformers uses PyTorch as a backend.
 
 ```python
-python -m pip install transformers datasets evaluate accelerate
+python -m pip install transformers datasets evaluate accelerate scikit-learn
 ```
 
 Example usage of `pytorch_test_nlp.py` for 1 epoch and batch size of 32:
@@ -242,8 +246,13 @@ For more on running TensorFlow on macOS, see [Apple's developer guide](https://d
 **Note:** Install TensorFlow Datasets to access Food101 dataset with TensorFlow.
 
 ```python
+# For Apple Silicon Macs/MPS GPUs
 python -m pip install tensorflow
 python -m pip install tensorflow-metal  
+python -m pip install tensorflow_datasets
+
+# For Nvidia/CUDA GPUs
+python -m pip install tensorflow[and cuda]
 python -m pip install tensorflow_datasets
 ```
 

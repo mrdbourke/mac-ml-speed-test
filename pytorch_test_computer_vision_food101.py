@@ -18,17 +18,20 @@ from datasets import load_dataset # requires datasets package, !pip install data
 
 from helper_functions import get_nvidia_gpu_name
 
+import torch.multiprocessing as mp
+from torch.utils.data.distributed import DistributedSampler
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.distributed import init_process_group, destroy_process_group
+import os
+
 # Create argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("--batch_sizes", default="32, 64, 128", help="Delimited list input of batch sizes to test, defaults to '32, 64, 128'", type=str)
 parser.add_argument("--epochs", type=int, default=3, help="Number of epochs to train for, default is 5")
-parser.add_argument("--num_workers", type=int, default=4, help="Number of workers to use for DataLoaders, default is 4, may be better to increase with available CPU cores")
+parser.add_argument("--num_workers", type=int, default=4, help="Number of workers to use for DataLoaders, default is 4, may be better to increase with available CPU cores, ignored when using --gpu_count")
+parser.add_argument("--gpu_count", type=int, default=1, help="Number of GPU to for training, currently only supports CUDA for 2 or more GPUs")
 args = parser.parse_args()
-
-
-# Prevent torch from erroring with too many files open (happens on M3)
-# See: https://github.com/pytorch/pytorch/issues/11201, https://github.com/CVMI-Lab/PLA/issues/20 
-torch.multiprocessing.set_sharing_strategy('file_system')
+gpu_count = args.gpu_count
 
 # Set random seed
 torch.manual_seed(42)
@@ -48,14 +51,29 @@ EPOCHS = args.epochs
 BATCH_SIZES = batch_size_args
 DATASET_NAME = "FOOD101"
 NUM_CLASSES = 101
+GPU_OFFSET = 1
+
+def ddp_setup(rank: int, gpu_count: int):
+    os.environ["MASTER_ADDR"] = "localhost"
+    os.environ["MASTER_PORT"] = "12355"
+
+    print(f"[INFO] ddp_setup for rank: {rank} gpu_count: {gpu_count}")
+    init_process_group(backend="nccl", rank=rank, world_size=gpu_count)
+    torch.cuda.set_device(rank + GPU_OFFSET)
 
 # Create DataLoaders
-def create_dataloaders(batch_size, num_workers=NUM_WORKERS):
-    train_dataloader = DataLoader(train_dataset,
-                                    batch_size=batch_size,
-                                    shuffle=True,
-                                    num_workers=num_workers,
-                                    pin_memory=False) # note: if you pin memory, you may get "too many workers" errors when recreating DataLoaders, see: https://github.com/Lightning-AI/pytorch-lightning/issues/18487#issuecomment-1740244601
+def create_dataloaders(train_dataset, test_dataset, batch_size, num_workers=NUM_WORKERS, is_distributed=False):
+    if is_distributed:
+        train_dataloader = DataLoader(train_dataset,
+                                        batch_size=batch_size,
+                                        shuffle=False,
+                                        sampler=DistributedSampler(train_dataset))
+    else:
+        train_dataloader = DataLoader(train_dataset,
+                                        batch_size=batch_size,
+                                        shuffle=True,
+                                        num_workers=num_workers,
+                                        pin_memory=False) # note: if you pin memory, you may get "too many workers" errors when recreating DataLoaders, see: https://github.com/Lightning-AI/pytorch-lightning/issues/18487#issuecomment-1740244601
 
     test_dataloader = DataLoader(test_dataset,
                                 batch_size=batch_size,
@@ -206,7 +224,10 @@ def train_and_test_model(model: torch.nn.Module,
     
     return results
 
-def train_and_time(device,
+def train_and_time(gpu_count,
+                   train_dataset,
+                   test_dataset,
+                   device,
                    batch_sizes=BATCH_SIZES,
                    epochs=EPOCHS):
 
@@ -216,6 +237,7 @@ def train_and_time(device,
         print(f"[INFO] Training with batch size {batch_size} for {epochs} epochs...")
         # Create an instance of resnet50
         model = torchvision.models.resnet50(num_classes=NUM_CLASSES).to(device)
+        if gpu_count > 1: model = DDP(model, device_ids=[device])
         # model = torch.compile(model) # potential way to speed up model
 
         # Setup loss function and optimizer
@@ -223,7 +245,7 @@ def train_and_time(device,
         optimizer = torch.optim.Adam(params=model.parameters(), lr=0.001)
 
         # Create DataLoaders
-        train_dataloader, test_dataloader = create_dataloaders(batch_size=batch_size)
+        train_dataloader, test_dataloader = create_dataloaders(train_dataset, test_dataset, batch_size=batch_size, is_distributed=gpu_count > 1)
 
         try:
             # Start the timer
@@ -290,8 +312,15 @@ def save_results(batch_size_training_results, target_dir="results_pytorch_cv"):
         # Save to CSV
         print(f"[INFO] Saving results to: {csv_filepath}")
         df.to_csv(csv_filepath, index=False)
-if __name__ == "__main__":
+
+def main(rank, gpu_count):
     print(f"[INFO] Testing model: {MODEL_NAME} on {DATASET_NAME} dataset with input shape {INPUT_SHAPE} for {EPOCHS} epochs across batch sizes: {BATCH_SIZES}")
+    if gpu_count > 1:
+        ddp_setup(rank, gpu_count)
+    else:
+        # Prevent torch from erroring with too many files open (happens on M3)
+        # See: https://github.com/pytorch/pytorch/issues/11201, https://github.com/CVMI-Lab/PLA/issues/20 
+        torch.multiprocessing.set_sharing_strategy('file_system')
 
     ### Get CPU Processor name ###
     CPU_PROCESSOR = None
@@ -322,6 +351,9 @@ if __name__ == "__main__":
     if torch.backends.mps.is_available():
         device = torch.device("mps")
         print(f"[INFO] MPS device found, using device: {device}")
+    elif torch.cuda.is_available() and gpu_count > 1:
+        device = rank + GPU_OFFSET
+        print(f"[INFO] CUDA device found, using device: {device} of {gpu_count} GPUs")
     elif torch.cuda.is_available():
         device = torch.device("cuda")
         print(f"[INFO] CUDA device found, using device: {device}")
@@ -330,10 +362,23 @@ if __name__ == "__main__":
         print (f"[INFO] MPS or CUDA device not found, using device: {device} (results will be much slower than using MPS or CUDA)")
 
     ### Train an time model ### 
-    batch_size_training_results = train_and_time(batch_sizes=BATCH_SIZES,
+    batch_size_training_results = train_and_time(gpu_count,
+                                                 train_dataset,
+                                                 test_dataset,
+                                                 batch_sizes=BATCH_SIZES,
                                                  epochs=EPOCHS,
                                                  device=device)
 
     print("[INFO] Finished training with all batch sizes.")        
 
     print(f"[INFO] Results:\n{batch_size_training_results}")
+
+    if gpu_count > 1:
+        destroy_process_group()                
+
+if __name__ == "__main__":
+    if gpu_count > 1:
+        # spawn will also pass in 'rank' as first argument to main
+        mp.spawn(main, args=(gpu_count,), nprocs=gpu_count)
+    else:
+        main(0, 1)

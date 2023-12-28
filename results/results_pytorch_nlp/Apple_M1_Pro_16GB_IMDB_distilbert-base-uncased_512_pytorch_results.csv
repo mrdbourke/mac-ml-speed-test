@@ -1,0 +1,5 @@
+train_runtime,train_samples_per_second,train_steps_per_second,train_loss,epoch,batch_size
+2653.6773,28.263,1.767,0.25482445877735793,3.0,16
+2530.3105,29.641,0.927,0.2628947759629922,3.0,32
+2703.7653,27.739,0.434,0.2805554649307498,3.0,64
+too slow 23H estimate, swapping aready at 128
